@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TGI_URL=${TGI_URL:-}
+      - OLLAMA_URL=${OLLAMA_URL:-http://ollama:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:14b}
+      # Make ingestion stable under Docker memory limits
+      - EMBEDDING_MODEL_NAME=${EMBEDDING_MODEL_NAME:-all-MiniLM-L6-v2}
+      - EMBEDDING_BATCH_SIZE=${EMBEDDING_BATCH_SIZE:-16}
+      - MAX_CHUNKS_PER_DOC=${MAX_CHUNKS_PER_DOC:-300}
+      - CHUNK_MAX_CHARS=${CHUNK_MAX_CHARS:-1600}
+      - CHUNK_OVERLAP_CHARS=${CHUNK_OVERLAP_CHARS:-250}
+      # OCR (for scanned PDFs). Off by default because it is slower.
+      - ENABLE_OCR=${ENABLE_OCR:-0}
+      - OCR_LANG=${OCR_LANG:-eng}
+      - OCR_TIMEOUT_S=${OCR_TIMEOUT_S:-600}
+      - OCR_MAX_PAGES=${OCR_MAX_PAGES:-0}
+    depends_on: []
+    volumes:
+      - backend_data:/app/data
+      - chroma_db:/app/chroma_db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      # This is used by browser-side code, so it must be reachable from your host browser.
+      # Use 127.0.0.1 to avoid Windows/Docker IPv6 localhost port-forwarding flakiness.
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  # Test runner for frontend (invoked via `docker compose run --rm test_frontend`)
+  test_frontend:
+    build: ./frontend
+    command: ["npm", "test"]
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    working_dir: /app
+    profiles: ["test"]
+    depends_on:
+      - backend
+
+  # NOTE: Local model/TGI services are optional. They are omitted by default
+  # to avoid automatic large downloads. To enable model serving, add a TGI
+  # service entry here and set `TGI_URL` to point at it.
+  #
+  # Optional local LLM (no API keys) via Ollama:
+  # - First run will download the model (can be large).
+  # - Example: OLLAMA_MODEL=qwen2.5:14b (recommended quality for RAG QA)
+  ollama:
+    image: ollama/ollama:latest
+    # Enable NVIDIA GPU acceleration (Docker Desktop + WSL2 + NVIDIA Container Toolkit)
+    # If you see errors about GPUs, comment this out and follow README GPU setup steps.
+    gpus: all
+    ports:
+      - "11434:11434"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  backend_data:
+  chroma_db:
+  ollama_data:

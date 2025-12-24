@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Small baseline improvements */
+html, body {
+  height: 100%;
+}
+
+/* Monaco Editor Styles - Force visibility */
+.monaco-editor {
+  color: #000000 !important;
+}
+
+.monaco-editor .view-line {
+  color: #000000 !important;
+}
+
+.monaco-editor .view-lines {
+  color: #000000 !important;
+}
+
+.monaco-editor .mtk1,
+.monaco-editor .mtk2,
+.monaco-editor .mtk3,
+.monaco-editor .mtk4,
+.monaco-editor .mtk5,
+.monaco-editor .mtk6,
+.monaco-editor .mtk7,
+.monaco-editor .mtk8,
+.monaco-editor .mtk9 {
+  color: #000000 !important;
+}
+
+.monaco-editor-background {
+  background-color: #ffffff !important;
+}
+
+.monaco-editor .margin {
+  background-color: #f8f9fa !important;
+}
+
+.monaco-editor .monaco-editor-background {
+  background-color: #ffffff !important;
+}
+
+/* Force all text in Monaco editor to be black */
+.monaco-editor .view-line span {
+  color: #000000 !important;
+}
+
+/* Ensure input fields are not affected by Monaco styles */
+input, textarea, select {
+  color: #000000 !important;
+}
+

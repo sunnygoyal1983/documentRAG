@@ -1,0 +1,2 @@
+# Keep unpinned requirements here minimal; use the lock for reproducible installs.
+-r requirements.lock

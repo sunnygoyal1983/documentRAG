@@ -1,0 +1,1 @@
+Acme Corp Confidential\n\nThis document describes Acme Corp's refund policy. Refunds are processed within 30 days of purchase when customers provide a valid receipt. Digital goods are non-refundable unless defective. For physical goods, return shipping is covered if the item is damaged.\n\nContact: support@acme.example.com

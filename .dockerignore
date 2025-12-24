@@ -1,0 +1,21 @@
+# General
+.git
+.DS_Store
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Python envs
+.venv/
+venv/
+
+# Node
+**/node_modules/
+**/.next/
+
+# Project data/artifacts (avoid bloating Docker build context)
+backend/data/
+backend/chroma_db/
+
+
