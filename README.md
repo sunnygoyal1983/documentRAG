@@ -1,96 +1,129 @@
-# Why I built this
+# AI Tools Suite (Local, Open-Source)
 
-“I built this tool to explore how open-source LLMs can be used for real developer workflows without relying on paid APIs. This repository contains two powerful AI tools: **AI Codebase Assistant** for development and **Document Q&A** for general RAG capabilities.”
+## Why I built this
 
-# 🛠️ AI Tools Suite
+I built this tool to explore how open-source LLMs can be applied to real developer workflows without relying on paid APIs or hosted services.
+
+This repository contains two complementary AI tools:
+- **AI Codebase Assistant** — focused on developer productivity and code understanding  
+- **Document Q&A** — a local, privacy-first RAG system for structured document querying  
+
+The goal was to design systems that are practical, secure, and reproducible, rather than demo-only AI experiments.
+
+---
+
+## 🛠️ AI Tools Suite
 
 This repository provides a unified workspace for AI-powered development and document analysis.
 
 ---
 
-## 1. AI Codebase Assistant — Production-Ready Code Generation
+## 1. AI Codebase Assistant — Code Understanding & Generation
 
-A standalone, production-ready web tool designed for senior engineers and architects. It uses Retrieval-Augmented Generation (RAG) to understand entire repositories and generate complete, production-ready code implementations.
+A standalone web tool designed for developers who want AI-assisted code generation and analysis with full control over their data.
+
+The system uses Retrieval-Augmented Generation (RAG) to understand repository context and generate structured, production-oriented outputs. Output quality depends on repository structure and task complexity.
 
 ### 🚀 Key Features
 
-- **Codebase RAG**: Deep understanding of your local repository via background indexing and semantic search.
-- **Production-Ready Code**: Generates full, copy-pasteable implementations without skeletons or TODOs.
-- **Structured Output**: Strict JSON validation and auto-recovery for deterministic LLM responses.
-- **Database Expertise**: Generates SQL schemas, migrations, and architecture designs (including greenfield projects).
-- **Security-First**: Path traversal protection, file size limits, and sanitization of AI-generated content.
+- **Codebase RAG**: Semantic indexing of local repositories for contextual understanding.
+- **Structured Output**: Deterministic JSON responses with validation and recovery.
+- **Production-Oriented Code**: Generates implementation-focused outputs instead of skeletons.
+- **Database Design Support**: SQL schemas, migrations, and architecture suggestions.
+- **Security-First Design**:
+  - Path traversal protection
+  - File size limits
+  - Sanitization of AI-generated file paths
 - **Service-Oriented Architecture**: Clear separation between UI, API, LLM orchestration, and vector storage.
 
 ---
 
 ## 2. Document Q&A (Local RAG) — Knowledge Management
 
-A versatile RAG tool for interacting with your personal or project documents. Upload PDFs, DOCX, or TXT files and ask questions grounded strictly in your data.
+A local RAG system for interacting with personal or project documents. Upload PDFs, DOCX, or TXT files and ask questions grounded strictly in your data.
 
 ### 📚 Key Features
 
-- **Multi-Format Support**: Ingest `.pdf`, `.docx`, and `.txt` files seamlessly.
-- **Strict Grounding**: Answers are generated based only on the uploaded document context to minimize hallucinations.
-- **Metadata Tracking**: View exactly which documents and chunks were used to generate an answer.
-- **Document Management**: Easily list, manage, and delete indexed documents via a dedicated dashboard.
-- **Privacy-First**: All document processing and embeddings stay on your local machine.
+- **Multi-Format Support**: `.pdf`, `.docx`, and `.txt` ingestion.
+- **Strict Grounding**: Answers are generated only from retrieved document context.
+- **Metadata Transparency**: Visibility into source documents and chunks used.
+- **Document Management**: List, manage, and delete indexed documents.
+- **Privacy-First**: All embeddings and processing remain on the local machine.
 
 ---
 
 ## 🏗️ Architecture
 
-The project is built with a focus on maintainability, security, and scalability:
+The project is designed with maintainability, security, and scalability in mind:
 
-- **Frontend**: Next.js (TypeScript) with modular components (`TaskInput`, `ResultViewer`) and Tailwind CSS for a professional UI.
-- **Backend**: FastAPI (Python) using a service-layer pattern (`CodeGenerationService`).
-- **Vector Store**: In-memory vector store with persistence (ChromaDB) for high-speed local retrieval.
-- **LLM Orchestration**: Centralized prompts and robust parsing logic in `llm_client.py` and `services.py`.
+- **Frontend**: Next.js (TypeScript) with modular components and Tailwind CSS.
+- **Backend**: FastAPI (Python) following a service-layer architecture.
+- **Vector Store**: ChromaDB with local persistence for fast retrieval.
+- **LLM Orchestration**: Centralized prompts and robust parsing logic.
 - **Configuration**: Environment-based configuration using `pydantic-settings`.
+
+---
 
 ## 🛠️ Quick Start
 
 ### 1. Requirements
-- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
-- [Ollama](https://ollama.com/) (recommended for local inference)
+- Docker & Docker Compose
+- Ollama (for local LLM inference)
 
 ### 2. Setup
-Clone the repository and run:
 
 ```bash
-# Start the entire stack (Backend + Frontend + Ollama)
+# Start the full stack (frontend + backend + ollama)
 docker compose up --build
 ```
 
 ### 3. Usage
-1. Open `http://localhost:3000/assistant` in your browser.
-2. Enter a coding task (e.g., "Implement a new authentication middleware using JWT").
-3. View the generated summary, assumptions, and affected files.
-4. Copy or download the generated code.
+
+1. Open `http://localhost:3000/assistant`
+2. Enter a coding or document query
+3. Review structured output and source context
+4. Copy or export generated results
+
+---
 
 ## ⚙️ Configuration
 
-The application can be configured via `.env` file or environment variables:
-
 | Variable | Default | Description |
-|----------|---------|-------------|
-| `OLLAMA_URL` | `http://localhost:11434` | URL for the local Ollama service |
-| `OLLAMA_MODEL` | `qwen2.5:14b` | LLM model to use for generation |
-| `MAX_FILE_SIZE_MB` | `10` | Maximum size for uploaded/generated files |
-| `ALLOWED_ORIGINS` | `["http://localhost:3000"]` | CORS allowed origins |
+|--------|--------|-------------|
+| OLLAMA_URL | http://localhost:11434 | Ollama service URL |
+| OLLAMA_MODEL | qwen2.5:14b | LLM model |
+| MAX_FILE_SIZE_MB | 10 | Max file size |
+| ALLOWED_ORIGINS | http://localhost:3000 | CORS origins |
+
+---
+
+## ⚠️ Known Limitations
+
+- No real-time autocomplete like Copilot or Cursor.
+- Inference speed depends on local hardware.
+- Generated code must be reviewed before production use.
+- Very large or complex repositories may require tuning chunking and indexing strategies.
+
+These trade-offs are intentional to preserve transparency, control, and local-first execution.
+
+---
+
+## 🔒 Security Considerations
+
+- The system **never executes generated code**.
+- All file paths are validated and sanitized.
+- Strict schema validation for API inputs and outputs.
+
+---
 
 ## 🧪 Testing
 
 ```bash
-# Run frontend tests
 cd frontend
 npm test
 ```
 
-## 🔒 Security
-
-- **No Code Execution**: The assistant only generates code; it never executes it on your host machine.
-- **Path Sanitization**: All file paths generated by the AI are sanitized to prevent directory traversal.
-- **Input Validation**: Strict Pydantic schemas for all API requests and responses.
+---
 
 ## 📝 License
 
