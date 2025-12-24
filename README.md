@@ -1,18 +1,41 @@
 # Why I built this
 
-“I built this tool to explore how open-source LLMs can be used for real developer workflows without relying on paid APIs.”
+“I built this tool to explore how open-source LLMs can be used for real developer workflows without relying on paid APIs. This repository contains two powerful AI tools: **AI Codebase Assistant** for development and **Document Q&A** for general RAG capabilities.”
 
-# AI Codebase Assistant — Production-Ready Code Generation
+# 🛠️ AI Tools Suite
+
+This repository provides a unified workspace for AI-powered development and document analysis.
+
+---
+
+## 1. AI Codebase Assistant — Production-Ready Code Generation
 
 A standalone, production-ready web tool designed for senior engineers and architects. It uses Retrieval-Augmented Generation (RAG) to understand entire repositories and generate complete, production-ready code implementations.
 
-## 🚀 Key Features
+### 🚀 Key Features
 
 - **Codebase RAG**: Deep understanding of your local repository via background indexing and semantic search.
 - **Production-Ready Code**: Generates full, copy-pasteable implementations without skeletons or TODOs.
 - **Structured Output**: Strict JSON validation and auto-recovery for deterministic LLM responses.
+- **Database Expertise**: Generates SQL schemas, migrations, and architecture designs (including greenfield projects).
 - **Security-First**: Path traversal protection, file size limits, and sanitization of AI-generated content.
 - **Service-Oriented Architecture**: Clear separation between UI, API, LLM orchestration, and vector storage.
+
+---
+
+## 2. Document Q&A (Local RAG) — Knowledge Management
+
+A versatile RAG tool for interacting with your personal or project documents. Upload PDFs, DOCX, or TXT files and ask questions grounded strictly in your data.
+
+### 📚 Key Features
+
+- **Multi-Format Support**: Ingest `.pdf`, `.docx`, and `.txt` files seamlessly.
+- **Strict Grounding**: Answers are generated based only on the uploaded document context to minimize hallucinations.
+- **Metadata Tracking**: View exactly which documents and chunks were used to generate an answer.
+- **Document Management**: Easily list, manage, and delete indexed documents via a dedicated dashboard.
+- **Privacy-First**: All document processing and embeddings stay on your local machine.
+
+---
 
 ## 🏗️ Architecture
 
