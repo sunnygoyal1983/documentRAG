@@ -1,3 +1,7 @@
+# Why I built this
+
+“I built this tool to explore how open-source LLMs can be used for real developer workflows without relying on paid APIs.”
+
 # AI Codebase Assistant — Production-Ready Code Generation
 
 A standalone, production-ready web tool designed for senior engineers and architects. It uses Retrieval-Augmented Generation (RAG) to understand entire repositories and generate complete, production-ready code implementations.
